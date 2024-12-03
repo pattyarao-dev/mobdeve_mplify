@@ -4,13 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mobdeve.s20.arao.patricia.mobdeve_mplify.ArtistFragment
+import com.mobdeve.s20.arao.patricia.mobdeve_mplify.FollowingFragment
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.Music
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.MusicRecyclerAdapter
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.R
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.Generator
+import com.mobdeve.s20.arao.patricia.mobdeve_mplify.HomeFragment
 
 class ProfileFragment : Fragment() {
 
@@ -42,5 +48,22 @@ class ProfileFragment : Fragment() {
 
         val likedSongsAdapter = MusicRecyclerAdapter(artistLikedSongs, requireContext())
         likedSongsRecyclerView.adapter = likedSongsAdapter
+
+        val followingCount = fetchFollowingCount()
+        val tvFollowingNum: TextView = view.findViewById(R.id.followingNum)
+        tvFollowingNum.text = followingCount.toString()
+
+        val followedArtistsList = view.findViewById<TextView>(R.id.followingList)
+        followedArtistsList.setOnClickListener {
+            parentFragmentManager.commit {
+                replace(R.id.flFragment, FollowingFragment())
+                addToBackStack(null)
+            }
+        }
+    }
+
+    private fun fetchFollowingCount(): Int {
+        val followingArtists = Generator.loadFollowingArtists()
+        return followingArtists.size
     }
 }

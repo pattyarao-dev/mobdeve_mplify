@@ -3,9 +3,9 @@ package com.mobdeve.s20.arao.patricia.mobdeve_mplify
 class Generator {
     companion object {
 
-        val sabrina = Artist("Sabrina", 142552, 10,  R.drawable.sabrina, "@sabriger")
+        val sabrina = Artist("Sabrina Carpenter", 142552, 10,  R.drawable.sabrina, "@sabriger")
         val niki = Artist("Niki", 4242552, 10,  R.drawable.niki, "@nikkier")
-        val phoebe = Artist("Phoebe Bridges", 145252, 10, R.drawable.phoebe, "@phoebix")
+        val phoebe = Artist("Phoebe Bridgers", 145252, 10, R.drawable.phoebe, "@phoebix")
         val clairo = Artist("Clairo", 8413553, 2, R.drawable.clairo, "@clairerthanever")
         val blink = Artist("Blink 182", 853178, 1, R.drawable.blink, "@blinkandimgone")
 
@@ -52,6 +52,14 @@ class Generator {
             likedSongsData.add(Music(phoebe, R.raw.phoebe_scott_street,  5325, "Scott Street"))
 
             return likedSongsData
+        }
+
+        fun loadFollowingArtists(): ArrayList<Artist> {
+            val followingArtists = ArrayList<Artist>()
+            followingArtists.add(sabrina)
+            followingArtists.add(niki)
+            followingArtists.add(phoebe)
+            return followingArtists
         }
     }
 }

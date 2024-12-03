@@ -2,5 +2,7 @@
     <string name="app_name">mobdeve_mplify</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="song_title">Song Title</string>
-    <string name="artist_name">Artist Title</string>
+    <string name="artist_name">Artist Name</string>
+    <string name="artist_fullname">Artist Name</string>
+    <string name="artist_tag">Artist Tag</string>
 </resources>

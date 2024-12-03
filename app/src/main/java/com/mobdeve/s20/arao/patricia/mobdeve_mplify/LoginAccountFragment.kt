@@ -1,22 +1,25 @@
 package com.mobdeve.s20.arao.patricia.mobdeve_mplify
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 
 class LoginAccountFragment: Fragment(R.layout.fragment_login) {
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Find the TextView and set up click listener
-        val createAccountLink = view.findViewById<TextView>(R.id.createAccountLink)
-        createAccountLink.setOnClickListener {
+
+        val signupLink = view.findViewById<TextView>(R.id.createAccountLink)
+        signupLink.setOnClickListener {
             parentFragmentManager.commit {
                 replace(R.id.flFragment, CreateAccountFragment())
-                addToBackStack(null) // Adds to back stack for navigation
+                addToBackStack(null)
             }
         }
 

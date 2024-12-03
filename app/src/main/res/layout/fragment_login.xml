@@ -63,7 +63,7 @@
         android:text="Don't have an account yet?"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -72,7 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:text="Sign Up!"
-        android:textColor="#0FA3B1"
+        android:textColor="@color/primary"
+        android:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.097"
