@@ -11,6 +11,7 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.ArtistFragment
+import com.mobdeve.s20.arao.patricia.mobdeve_mplify.EditProfileFragment
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.FollowingFragment
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.Music
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.MusicRecyclerAdapter
@@ -71,9 +72,9 @@ class ProfileFragment : Fragment() {
         }
 
         val editProfileLink = view.findViewById<TextView>(R.id.editProfileButton)
-        followedArtistsList.setOnClickListener {
+        editProfileLink.setOnClickListener {
             parentFragmentManager.commit {
-                replace(R.id.flFragment, FollowingFragment())
+                replace(R.id.flFragment, EditProfileFragment())
                 addToBackStack(null)
             }
         }

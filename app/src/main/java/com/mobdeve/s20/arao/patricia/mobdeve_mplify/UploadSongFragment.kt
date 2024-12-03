@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.mobdeve.s20.arao.patricia.mplify.ProfileFragment
 
 class UploadSongFragment: Fragment() {
 
@@ -35,6 +36,14 @@ class UploadSongFragment: Fragment() {
                 .compress(1024)			//Final image size will be less than 1 MB(Optional)
                 .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
                 .start()
+        }
+
+        val uploadSongBtn = view.findViewById<Button>(R.id.uploadSongButton)
+        uploadSongBtn.setOnClickListener {
+            parentFragmentManager.commit {
+                replace(R.id.flFragment, ProfileFragment())
+                addToBackStack(null)
+            }
         }
 
         return view

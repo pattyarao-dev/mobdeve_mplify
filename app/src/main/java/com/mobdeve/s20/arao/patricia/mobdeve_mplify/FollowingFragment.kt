@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -38,6 +39,13 @@ class FollowingFragment: Fragment(){
         val followingArtistsAdapter = ArtistRecyclerAdapter(followingArtists, requireContext())
         followingArtistsRecyclerView.adapter = followingArtistsAdapter
 
-
     }
+
+//    private fun toggleFollowArtist(){
+//        val toggleFollowBtn = view?.findViewById<Button>(R.id.toggleFollowButton)
+//        toggleFollowBtn?.setOnClickListener{
+//            toggleFollowBtn.setBackgroundColor(resources.getColor(android.R.color.darker_gray, null))
+//            toggleFollowBtn.text = "Follow"
+//        }
+//    }
 }
