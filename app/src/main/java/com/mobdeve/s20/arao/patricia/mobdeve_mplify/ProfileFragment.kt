@@ -17,6 +17,7 @@ import com.mobdeve.s20.arao.patricia.mobdeve_mplify.MusicRecyclerAdapter
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.R
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.Generator
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.HomeFragment
+import com.mobdeve.s20.arao.patricia.mobdeve_mplify.UploadSongFragment
 
 class ProfileFragment : Fragment() {
 
@@ -57,6 +58,14 @@ class ProfileFragment : Fragment() {
         followedArtistsList.setOnClickListener {
             parentFragmentManager.commit {
                 replace(R.id.flFragment, FollowingFragment())
+                addToBackStack(null)
+            }
+        }
+
+        val uploadSongLink = view.findViewById<Button>(R.id.uploadSongButton)
+        uploadSongLink.setOnClickListener {
+            parentFragmentManager.commit {
+                replace(R.id.flFragment, UploadSongFragment())
                 addToBackStack(null)
             }
         }
