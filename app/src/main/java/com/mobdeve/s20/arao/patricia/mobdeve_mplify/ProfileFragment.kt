@@ -60,6 +60,14 @@ class ProfileFragment : Fragment() {
                 addToBackStack(null)
             }
         }
+
+        val editProfileLink = view.findViewById<TextView>(R.id.editProfileButton)
+        followedArtistsList.setOnClickListener {
+            parentFragmentManager.commit {
+                replace(R.id.flFragment, FollowingFragment())
+                addToBackStack(null)
+            }
+        }
     }
 
     private fun fetchFollowingCount(): Int {
