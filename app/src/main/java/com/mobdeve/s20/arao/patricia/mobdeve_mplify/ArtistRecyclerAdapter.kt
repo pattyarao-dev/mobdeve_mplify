@@ -29,9 +29,9 @@ class ArtistRecyclerAdapter(
 
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         // Bind data to the views
-        val followingArtists = artist[position]
-        holder.artistFullName.text = followingArtists.name
-        holder.artistTag.text = followingArtists.tag
+        val artistList = artist[position]
+        holder.artistFullName.text = artistList.name
+        holder.artistTag.text = artistList.tag
 
         updateButtonAppearance(holder.toggleFollowButton, followStates[position])
 

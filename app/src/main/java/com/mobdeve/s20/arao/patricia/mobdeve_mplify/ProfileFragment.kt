@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.ArtistFragment
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.EditProfileFragment
+import com.mobdeve.s20.arao.patricia.mobdeve_mplify.FollowerFragment
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.FollowingFragment
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.Music
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.MusicRecyclerAdapter
@@ -55,10 +56,18 @@ class ProfileFragment : Fragment() {
         val tvFollowingNum: TextView = view.findViewById(R.id.followingNum)
         tvFollowingNum.text = followingCount.toString()
 
-        val followedArtistsList = view.findViewById<TextView>(R.id.followingList)
+        val followedArtistsList = view.findViewById<TextView>(R.id.followingPageLink)
         followedArtistsList.setOnClickListener {
             parentFragmentManager.commit {
                 replace(R.id.flFragment, FollowingFragment())
+                addToBackStack(null)
+            }
+        }
+
+        val artistFollowersList = view.findViewById<TextView>(R.id.followersPageLink)
+        artistFollowersList.setOnClickListener {
+            parentFragmentManager.commit {
+                replace(R.id.flFragment, FollowerFragment())
                 addToBackStack(null)
             }
         }
