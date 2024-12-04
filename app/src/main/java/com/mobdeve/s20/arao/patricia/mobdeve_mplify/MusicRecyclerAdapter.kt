@@ -29,12 +29,6 @@ class MusicRecyclerAdapter(
         val artistSongs = songs[position]
         holder.songTitle.text = artistSongs.title
         holder.artistName.text = artistSongs.artist.name
-
-        holder.artistName.setOnClickListener {
-            val intent = Intent(mContext, ArtistFragment::class.java)
-            intent.putExtra("ARTIST_NAME", artistSongs.artist.name)
-            mContext.startActivity(intent)
-        }
     }
 
     // Method to update the dataset and refresh the RecyclerView
