@@ -61,5 +61,13 @@ class Generator {
             followingArtists.add(phoebe)
             return followingArtists
         }
+
+        fun loadFollowers(): ArrayList<Artist> {
+            val followers = ArrayList<Artist>()
+            followers.add(blink)
+            followers.add(niki)
+            followers.add(phoebe)
+            return followers
+        }
     }
 }
