@@ -81,7 +81,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/followersPageLink"
                 android:layout_width="80dp"
                 android:layout_height="17dp"
                 android:layout_marginStart="52dp"
@@ -108,7 +108,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/followingPageLinks"
                 android:layout_width="80dp"
                 android:layout_height="17dp"
                 android:layout_marginStart="20dp"
@@ -117,7 +117,7 @@
                 android:textColor="#7B7B7B"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textView13"
+                app:layout_constraintStart_toEndOf="@+id/followersPageLink"
                 app:layout_constraintTop_toBottomOf="@+id/following" />
 
             <Button
@@ -129,7 +129,7 @@
                 android:backgroundTint="@color/primary"
                 android:text="follow"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                app:layout_constraintTop_toBottomOf="@+id/followingPageLinks" />
 
             <TextView
                 android:id="@+id/discographyHeading"

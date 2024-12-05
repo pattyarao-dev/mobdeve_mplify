@@ -45,6 +45,7 @@ class ProfileFragment : Fragment() {
     private lateinit var usernameText: TextView
     private lateinit var artistNameText: TextView
     private lateinit var mySongs: ArrayList<ActualMusic>
+    private lateinit var myLikedSongs: ArrayList<ActualMusic>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,12 +77,15 @@ class ProfileFragment : Fragment() {
                 .addOnSuccessListener { result ->
                     for (document in result) {
                         val profpic = document.getString("profilePicture")
+
+                        val followers = document.get("follower_artists") as? ArrayList<String>
+                        val following = document.get("followed_artists") as? ArrayList<String>
                         if (profpic != null) {
                             Picasso.get().load(profpic).into(artistPhoto)
                         }
                         var usernameString = "@" + document.getString("username").toString()
-                        followersText.text = document.getLong("follower").toString()
-                        tvFollowingNum.text = document.getLong("following").toString()
+                        followersText.text = followers?.size?.toString() ?: "0"
+                        tvFollowingNum.text = following?.size?.toString() ?: "0"
                         usernameText.text = usernameString
                         artistNameText.text = document.getString("name").toString()
                     }
@@ -116,6 +120,56 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun getMyLikedSongs(currentUser: FirebaseUser?, recyclerView: RecyclerView) {
+        if (currentUser != null) {
+            val userEmail = currentUser.email
+            userEmail?.let {
+                // First, fetch the liked_songs array for the current user
+                db.collection("users")
+                    .whereEqualTo("email", userEmail)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        if (!querySnapshot.isEmpty) {
+                            val likedSongs = querySnapshot.documents[0].get("liked_songs") as? List<String>
+                            if (!likedSongs.isNullOrEmpty()) {
+                                // Fetch the songs matching the titles in the liked_songs array
+                                db.collection("music")
+                                    .whereIn("songTitle", likedSongs)
+                                    .get()
+                                    .addOnSuccessListener { songSnapshot ->
+                                        val songsList = songSnapshot.documents.map { document ->
+                                            ActualMusic(
+                                                songTitle = document.getString("songTitle") ?: "",
+                                                songImage = document.getString("songImage") ?: "",
+                                                songGenre = document.getString("songGenre") ?: "",
+                                                music = document.getString("music") ?: "",
+                                                artist = document.getString("artist") ?: ""
+                                            )
+                                        }
+                                        val adapter = ActualMusicRecyclerAdapter(songsList as ArrayList<ActualMusic>, requireContext(), ::onSongClick)
+                                        recyclerView.adapter = adapter
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.e("Firestore", "Error fetching liked songs: ${e.message}")
+                                    }
+
+                            } else {
+                                Log.e("Firestore", "No liked songs found for user.")
+                            }
+                        } else {
+                            Log.e("Firestore", "User not found.")
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("Firestore", "Error fetching user data: ${e.message}")
+                    }
+            } ?: Log.e("Firestore", "User email is null.")
+        } else {
+            Log.e("Firestore", "User is not logged in.")
+        }
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -125,6 +179,7 @@ class ProfileFragment : Fragment() {
         artistNameText = view.findViewById(R.id.artistTitle)
 
         mySongs = ArrayList()
+        myLikedSongs = ArrayList()
 
         db = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
@@ -147,20 +202,24 @@ class ProfileFragment : Fragment() {
         val musicAdapter = ActualMusicRecyclerAdapter(mySongs, requireContext(), ::onSongClick)
         recyclerView.adapter = musicAdapter
 
-        val likedSongsAdapter = MusicRecyclerAdapter(artistLikedSongs, requireContext())
-        likedSongsRecyclerView.adapter = likedSongsAdapter
-
         tvFollowingNum = view.findViewById(R.id.followingNum)
 
-
         getMySongs(currentUser, recyclerView)
+        getMyLikedSongs(currentUser, likedSongsRecyclerView)
         setPage(currentUser)
 
 
         val followedArtistsList = view.findViewById<TextView>(R.id.followingPageLink)
         followedArtistsList.setOnClickListener {
             parentFragmentManager.commit {
-                replace(R.id.flFragment, FollowingFragment())
+
+                val bundle = Bundle().apply {
+                    putString("email", currentUser?.email)
+                }
+                val followingFragment = FollowingFragment().apply {
+                    arguments = bundle
+                }
+                replace(R.id.flFragment, followingFragment)
                 addToBackStack(null)
             }
         }
@@ -168,7 +227,13 @@ class ProfileFragment : Fragment() {
         val artistFollowersList = view.findViewById<TextView>(R.id.followersPageLink)
         artistFollowersList.setOnClickListener {
             parentFragmentManager.commit {
-                replace(R.id.flFragment, FollowerFragment())
+                val bundle = Bundle().apply {
+                    putString("email", currentUser?.email)
+                }
+                val followerFragment = FollowerFragment().apply {
+                    arguments = bundle
+                }
+                replace(R.id.flFragment, followerFragment)
                 addToBackStack(null)
             }
         }

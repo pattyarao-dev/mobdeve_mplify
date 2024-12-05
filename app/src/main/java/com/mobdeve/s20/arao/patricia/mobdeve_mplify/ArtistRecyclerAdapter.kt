@@ -6,13 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 class ArtistRecyclerAdapter(
-    private var artist: ArrayList<Artist>,
+    private var artist: ArrayList<ActualArtist>,
     private val mContext: Context,
+    private val onArtistClick: (ActualArtist) -> Unit
 ) : RecyclerView.Adapter<ArtistRecyclerAdapter.ArtistViewHolder>() {
 
     private val followStates = BooleanArray(artist.size) { true }
@@ -31,36 +34,17 @@ class ArtistRecyclerAdapter(
         // Bind data to the views
         val artistList = artist[position]
         holder.artistFullName.text = artistList.name
-        holder.artistTag.text = artistList.tag
+        holder.artistTag.text = artistList.username
 
-        updateButtonAppearance(holder.toggleFollowButton, followStates[position])
+        Picasso.get().load(artistList.profilePicture).into(holder.artistPhoto)
 
-        holder.toggleFollowButton.setOnClickListener {
-            followStates[position] = !followStates[position]
-            updateButtonAppearance(holder.toggleFollowButton, followStates[position])
+        holder.artistTag.setOnClickListener {
+            onArtistClick(artistList)
         }
 
-//        holder.artistName.setOnClickListener {
-//            val intent = Intent(mContext, ArtistFragment::class.java)
-//            intent.putExtra("ARTIST_NAME", artistSongs.artist.name)
-//            mContext.startActivity(intent)
-//        }
-    }
-
-    private fun updateButtonAppearance(button: Button, isFollowing: Boolean) {
-        if (isFollowing) {
-            button.text = "Following"
-            button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.primary))
-        } else {
-            button.text = "Follow"
-            button.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.darker_gray))
+        holder.artistFullName.setOnClickListener {
+            onArtistClick(artistList)
         }
-    }
-
-    // Method to update the dataset and refresh the RecyclerView
-    fun setFilteredSongs(filteredArtist: ArrayList<Artist>) {
-        artist = filteredArtist
-        notifyDataSetChanged() // Notify the adapter about the dataset change
     }
 
     // ViewHolder to hold references to the item views
@@ -68,6 +52,6 @@ class ArtistRecyclerAdapter(
         val artistFullName: TextView = artistView.findViewById(R.id.tvArtistFullName)
         val artistTag: TextView = artistView.findViewById(R.id.tvArtistTag)
         val toggleFollowButton: Button = artistView.findViewById(R.id.toggleFollowButton)
-
+        val artistPhoto: ImageView = artistView.findViewById(R.id.artistPhoto)
     }
 }

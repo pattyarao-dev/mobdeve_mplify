@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
@@ -82,6 +83,7 @@ class FullSongFragment : Fragment() {
     private fun stopMusic() {
         mediaPlayer.stop()
         mediaPlayer.release()
+        updateJob?.cancel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,6 +100,19 @@ class FullSongFragment : Fragment() {
         timeConsumed = view.findViewById(R.id.timeConsumed)
         seekBar = view.findViewById(R.id.seekBar)
         mediaPlayer = MediaPlayer()
+
+        artistNameText.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("artistEmail", artistEmail.toString())
+            }
+
+            val artistFragment = ArtistFragment().apply {
+                arguments = bundle
+            }
+            parentFragmentManager.commit {
+                replace(R.id.flFragment, artistFragment)
+            }
+        }
 
 
         Log.d("Actual Title", songTitle.toString())
