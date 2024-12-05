@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "863090424909",
+    "project_id": "mplify-e9232",
+    "storage_bucket": "mplify-e9232.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863090424909:android:5f3b56f6ea0d79717f7004",
+        "android_client_info": {
+          "package_name": "com.mobdeve.s20.arao.patricia.mobdeve_mplify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtf1LHTQM6N8Dl3ZiC8kKPHGd8huF1oKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

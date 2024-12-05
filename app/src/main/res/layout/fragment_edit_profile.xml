@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/followingHeading" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/cameraButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/camera_svgrepo_com"
@@ -55,6 +55,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/name"
             android:text="Name" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,6 +72,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/username"
             android:text="Username" />
     </com.google.android.material.textfield.TextInputLayout>
 

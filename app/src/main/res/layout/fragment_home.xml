@@ -12,7 +12,7 @@
 
        <androidx.constraintlayout.widget.ConstraintLayout
            android:layout_width="match_parent"
-           android:layout_height="wrap_content"
+           android:layout_height="match_parent"
            android:background="@color/background">
 
            <TextView
@@ -36,10 +36,11 @@
                android:layout_height="wrap_content"
                android:layout_marginHorizontal="24dp"
                android:layout_marginVertical="10dp"
-               android:text="Recents by Artists You Follow"
-               android:textSize="20sp"
                android:fontFamily="@font/work_sans_bold"
-               app:layout_constraintTop_toBottomOf="@id/homepageHeading"/>
+               android:text="All songs in the platform!"
+               android:textSize="20sp"
+               app:layout_constraintTop_toBottomOf="@id/homepageHeading"
+               tools:layout_editor_absoluteX="24dp" />
 
            <androidx.recyclerview.widget.RecyclerView
                android:id="@+id/recentReleases"
@@ -48,23 +49,6 @@
                android:layout_marginHorizontal="24dp"
                app:layout_constraintTop_toBottomOf="@+id/recentReleasesHeading"/>
 
-           <TextView
-               android:id="@+id/popularReleasesHeading"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginHorizontal="24dp"
-               android:layout_marginTop="30dp"
-               android:text="Popular Today"
-               android:textSize="20sp"
-               android:fontFamily="@font/work_sans_bold"
-               app:layout_constraintTop_toBottomOf="@id/recentReleases"/>
-
-           <androidx.recyclerview.widget.RecyclerView
-               android:id="@+id/popularReleases"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginHorizontal="24dp"
-               app:layout_constraintTop_toBottomOf="@+id/popularReleasesHeading"/>
        </androidx.constraintlayout.widget.ConstraintLayout>
    </ScrollView>
 

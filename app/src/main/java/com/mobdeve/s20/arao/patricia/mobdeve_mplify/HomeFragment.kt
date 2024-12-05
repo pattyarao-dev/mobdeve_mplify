@@ -5,31 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mobdeve.s20.arao.patricia.mobdeve_mplify.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+
+    private lateinit var allSongs: ArrayList<ActualMusic>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -40,45 +31,63 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun fetchAllSongs(recycler: RecyclerView){
+        db.collection("music").get().addOnSuccessListener { result ->
+            for(data in result) {
+                val songTitle = data.getString("songTitle")
+                val songGenre = data.getString("songGenre")
+                val songUrl = data.getString("music")
+                val email = data.getString("artist")
+                val music = ActualMusic(
+                    songTitle.toString(),
+                    data.getString("songImage").toString(),
+                    songGenre.toString(),
+                    songUrl.toString(),
+                    email.toString()
+                )
+
+                allSongs.add(music)
             }
+
+
+            val allSongsRecyclerAdapter = ActualMusicRecyclerAdapter(allSongs, requireContext(), ::onSongClick)
+            recycler.adapter = allSongsRecyclerAdapter
+            allSongsRecyclerAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun onSongClick(song: ActualMusic) {
+        val bundle = Bundle().apply {
+            putString("songTitle", song.songTitle.toString())
+            putString("email", song.artist.toString())
+        }
+
+        val fullSongFragment = FullSongFragment().apply {
+            arguments = bundle
+        }
+
+        parentFragmentManager.commit {
+            replace(R.id.flFragment, fullSongFragment)
+            addToBackStack(null)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Fetch the data for songs
-        val allSongs: ArrayList<Music> = Generator.loadAllSongs()
-        val popularSongs: ArrayList<Music> = Generator.loadPopularSongs()
+        db = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
+        allSongs = ArrayList()
 
+        // Fetch the data for songs
         // Initialize the RecyclerView
 
         val allSongsRecyclerView: RecyclerView = view.findViewById(R.id.recentReleases)
         allSongsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val popularSongsRecyclerView: RecyclerView = view.findViewById(R.id.popularReleases)
-        popularSongsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        fetchAllSongs(allSongsRecyclerView)
         // Set up the adapter
-
-        val allSongsRecyclerAdapter = MusicRecyclerAdapter(allSongs, requireContext())
+        val allSongsRecyclerAdapter = ActualMusicRecyclerAdapter(allSongs, requireContext(), ::onSongClick)
         allSongsRecyclerView.adapter = allSongsRecyclerAdapter
-        val popularSongsRecyclerAdapter = MusicRecyclerAdapter(popularSongs, requireContext())
-        popularSongsRecyclerView.adapter = popularSongsRecyclerAdapter
     }
 }
